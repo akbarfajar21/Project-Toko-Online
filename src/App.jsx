@@ -11,7 +11,6 @@ import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
-import CounterApp from "./pages/CounterApp";
 
 const App = () => {
   return (
@@ -27,7 +26,6 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/counter" element={<CounterApp />} />
       </Routes>
     </BrowserRouter>
   );
