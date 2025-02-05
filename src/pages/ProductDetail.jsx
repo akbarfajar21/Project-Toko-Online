@@ -62,7 +62,7 @@ const ProductDetail = () => {
       <div className="container mx-auto px-4 py-8">
         <button
           onClick={() => navigate(-1)}
-          className="mt-14 mb-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-2 px-4 rounded-md shadow-md"
+          className="mt-16 mb-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-2 px-4 rounded-md shadow-md"
         >
           ← Kembali
         </button>

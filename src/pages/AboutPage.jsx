@@ -2,12 +2,13 @@ import React from "react";
 import Header from "../components/tailus/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import FloatingButton from "../components/FloatingButton";
 
 const AboutPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white">
       <Header />
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mt-5 mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-extrabold mb-6 mt-14 text-yellow-500 dark:text-white">
             Tentang Kami
@@ -136,6 +137,7 @@ const AboutPage = () => {
           >
             Lihat Produk Kami
           </Link>
+          <FloatingButton />
         </section>
       </main>
       <Footer />

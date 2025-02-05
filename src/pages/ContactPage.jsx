@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/tailus/Header";
 import Footer from "../components/Footer";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
+import FloatingButton from "../components/FloatingButton";
 
 const ContactPage = () => {
   const [expanded, setExpanded] = useState(null);
@@ -29,34 +30,34 @@ const ContactPage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-extrabold mb-6 mt-12">Hubungi Kami</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
-            Kami senang mendengar dari Anda! Jangan ragu untuk menghubungi kami
-            melalui informasi di bawah ini.
+      <main className="flex-grow container mt-14 mx-auto px-4 py-10">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold mb-4">Hubungi Kami</h1>
+          <p className="text-base text-gray-600 dark:text-gray-300">
+            Kami senang mendengar dari Anda! Jangan ragu untuk menghubungi kami.
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          <div className="lg:col-span-1 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
-            <h2 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200">
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-1 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+            <h2 className="text-2xl font-bold mb-4 text-center">
               Informasi Kontak
             </h2>
-            <ul className="space-y-6">
-              <li className="flex items-center text-lg text-gray-600 dark:text-gray-300">
-                <FaEnvelope className="mr-4 text-3xl text-blue-500" />
+            <ul className="space-y-4 text-sm">
+              <li className="flex items-center">
+                <FaEnvelope className="mr-3 text-xl text-blue-500" />
                 <span>
                   <strong>Email:</strong> akbarfajar2112@gmail.com
                 </span>
               </li>
-              <li className="flex items-center text-lg text-gray-600 dark:text-gray-300">
-                <FaPhoneAlt className="mr-4 text-3xl text-green-500" />
+              <li className="flex items-center">
+                <FaPhoneAlt className="mr-3 text-xl text-green-500" />
                 <span>
-                  <strong>Telepon:</strong> +62895335545919
+                  <strong>Telepon:</strong> +62 895-3355-45919
                 </span>
               </li>
-              <li className="flex items-center text-lg text-gray-600 dark:text-gray-300">
-                <FaMapMarkerAlt className="mr-4 text-3xl text-red-500" />
+              <li className="flex items-center">
+                <FaMapMarkerAlt className="mr-3 text-xl text-red-500" />
                 <span>
                   <strong>Alamat:</strong> Jl. Kp. Pamahan Setya Mulya, Cikarang
                   Timur, Bekasi
@@ -64,63 +65,59 @@ const ContactPage = () => {
               </li>
             </ul>
           </div>
-          <div className="lg:col-span-2 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
-            <h2 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200">
+
+          <div className="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+            <h2 className="text-2xl font-bold mb-4 text-center">
               Tentang Kami
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
               Kami adalah tim yang berdedikasi untuk memberikan layanan terbaik
-              kepada pelanggan kami. Dengan pengalaman bertahun-tahun di bidang
-              kami, kami berkomitmen untuk memenuhi kebutuhan Anda dengan
-              profesionalisme dan keahlian.
-            </p>
-            <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
-              Jika Anda memiliki pertanyaan, saran, atau membutuhkan bantuan,
-              jangan ragu untuk menghubungi kami melalui informasi kontak di
-              samping. Kami selalu siap membantu Anda.
+              kepada pelanggan kami. Jika Anda memiliki pertanyaan, saran, atau
+              membutuhkan bantuan, hubungi kami.
             </p>
           </div>
         </div>
 
-        <div className="mt-16 mb-12">
-          <h2 className="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200">
-            Lokasi Kami
-          </h2>
+        <div className="mt-12">
+          <h2 className="text-3xl font-bold text-center mb-6">Lokasi Kami</h2>
           <div className="flex justify-center">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1133.4911517688026!2d107.18028177809437!3d-6.287360324369286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e699b445d8375b1%3A0x2be0e0c5314813b1!2sPesantren%20SMP%20dan%20SMA%20Rabbaanii%20Islamic%20School!5e0!3m2!1sen!2sid!4v1733802989670!5m2!1sen!2sid"
               width="100%"
-              height="450"
+              height="350"
               style={{ border: "0" }}
               allowFullScreen=""
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="rounded-lg shadow-md"
+              className="rounded-lg shadow"
             ></iframe>
           </div>
         </div>
 
-        <div className="bg-gray-100 dark:bg-gray-800 mt-16 p-8 rounded-lg">
-          <h2 className="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200">
+        <div className="bg-gray-100 dark:bg-gray-800 mt-10 p-5 rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold text-center mb-5 text-gray-900 dark:text-white">
             FAQ
           </h2>
-          <ul className="space-y-6">
+          <ul className="space-y-3 text-sm">
             {faqData.map((item, index) => (
               <li
                 key={index}
-                className="border-b border-gray-300 dark:border-gray-700 pb-4 cursor-pointer"
+                className="border-b border-gray-300 dark:border-gray-700 pb-2 cursor-pointer transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2"
                 onClick={() => toggleFAQ(index)}
               >
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 flex justify-between">
+                <h3 className="text-base font-semibold flex justify-between items-center text-gray-800 dark:text-gray-200">
                   {item.question}
-                  <span>{expanded === index ? "−" : "+"}</span>
+                  <span className="transition-transform duration-300 transform">
+                    {expanded === index ? "−" : "+"}
+                  </span>
                 </h3>
                 <div
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    expanded === index ? "max-h-40" : "max-h-0"
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    expanded === index
+                      ? "max-h-screen opacity-100 mt-2"
+                      : "max-h-0 opacity-0"
                   }`}
                 >
-                  <p className="mt-2 text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600 dark:text-gray-400">
                     {item.answer}
                   </p>
                 </div>
@@ -129,6 +126,7 @@ const ContactPage = () => {
           </ul>
         </div>
       </main>
+      <FloatingButton />
       <Footer />
     </div>
   );

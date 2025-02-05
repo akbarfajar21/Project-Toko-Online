@@ -10,7 +10,7 @@ const Hero = () => {
 
   return (
     <section id="home" className="">
-      <div className="bg-yellow-600 dark:bg-yellow-200 rounded-md h-auto p-8 md:p-14 flex flex-col md:flex-row items-center md:h-[500px]">
+      <div className="bg-yellow-600 mt-24 dark:bg-yellow-200 rounded-md h-auto p-8 md:p-14 flex flex-col md:flex-row items-center md:h-[500px]">
         <div className="w-full md:w-1/2 mb-6 md:mb-0">
           <motion.div
             initial="hidden"
