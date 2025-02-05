@@ -22,7 +22,10 @@ const useCartStore = create((set, get) => ({
 
   addToCart: async (productId) => {
     const { data: user } = await supabase.auth.getUser();
-    if (!user) return alert("Silakan login terlebih dahulu!");
+    if (!user) {
+      // Jika pengguna belum login, kembalikan peringatan
+      return { success: false, message: "Silakan login terlebih dahulu!" };
+    }
 
     const { data: cartItem, error } = await supabase
       .from("keranjang")
@@ -47,7 +50,9 @@ const useCartStore = create((set, get) => ({
       ]);
     }
 
-    get().fetchCart();
+    // Ambil ulang cart setelah menambah produk
+    await get().fetchCart();
+    return { success: true };
   },
 }));
 

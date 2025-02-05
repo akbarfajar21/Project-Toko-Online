@@ -60,20 +60,39 @@ export default function ProductPage() {
     setFilteredProducts(filtered);
   }, [selectedTypes, selectedPriceSort, selectedStockSort, products]);
 
-  const handleAddToCart = (product) => {
-    addToCart(product.id);
+  const handleAddToCart = async (product) => {
+    const { success, message } = await addToCart(product.id); // Menunggu hasil dari addToCart
+
+    if (!success) {
+      // Menampilkan peringatan jika gagal (belum login)
+      Swal.fire({
+        icon: "warning",
+        title: "Anda harus login terlebih dahulu!",
+        text: message, // Pesan dari addToCart
+        showConfirmButton: true,
+        confirmButtonText: "Login",
+        confirmButtonColor: "#28a745",
+        position: "top-end",
+        toast: true,
+        background: "#ffcc00",
+        color: "black",
+      }).then(() => {
+        navigate("/login"); // Arahkan pengguna ke halaman login setelah menekan tombol
+      });
+      return; // Hentikan eksekusi jika pengguna belum login
+    }
+
     setAddingProduct(product);
 
-    // Menampilkan alert menggunakan SweetAlert
     Swal.fire({
       icon: "success",
       title: "Produk berhasil ditambahkan ke keranjang!",
       showConfirmButton: false,
-      timer: 2000, // Timer 2 detik
-      position: "top-end", // Tempatkan di bagian atas kanan
-      toast: true, // Menampilkan alert seperti toast
-      background: "#28a745", // Background hijau
-      color: "white", // Teks putih
+      timer: 2000,
+      position: "top-end",
+      toast: true,
+      background: "#28a745",
+      color: "white",
     }).then(() => {
       window.location.reload(); // Reload halaman setelah SweetAlert selesai
     });
