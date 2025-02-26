@@ -3,10 +3,14 @@ import Header from "../components/tailus/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import FloatingButton from "../components/FloatingButton";
+import { Helmet } from "react-helmet";
 
 const AboutPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white">
+      <Helmet>
+        <title>Project Toko Online | About</title>
+      </Helmet>
       <Header />
       <main className="container mt-5 mx-auto px-4 py-8">
         <div className="text-center mb-12">
@@ -28,8 +32,9 @@ const AboutPage = () => {
             <img
               src="/shopping.gif"
               alt="Tentang Website"
-              className="w-full md:w-1/2 rounded-lg shadow-lg mb-6 md:mb-0"
+              className="w-3/4 md:w-1/3 rounded-lg shadow-lg mb-6 md:mb-0"
             />
+
             <div className="md:w-1/2 md:pl-10">
               <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed text-center ">
                 Kami memahami pentingnya kemudahan berbelanja di era modern.

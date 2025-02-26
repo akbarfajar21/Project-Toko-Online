@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/tailus/Header";
 import supabase from "../utils/supaClient";
+import { Helmet } from "react-helmet";
 
 const SettingPage = () => {
   const [profile, setProfile] = useState({});
@@ -236,6 +237,9 @@ const SettingPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+      <Helmet>
+        <title>Project Toko Online | Profile</title>
+      </Helmet>
       <Header />
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-100 via-indigo-50 to-indigo-200 dark:from-indigo-900 dark:via-indigo-700 dark:to-indigo-800 p-6">
         <div className="bg-white mt-12 dark:bg-gray-800 p-10 rounded-xl shadow-2xl w-full max-w-2xl relative">

@@ -46,29 +46,45 @@ const ProductList = () => {
 
   if (isError) return <p>Error: {error.message}</p>;
 
-  const displayedProducts = products.slice(0, 4);
+  const displayedProducts = products.slice(0, 5);
 
   return (
-    <div className="my-10 dark:text-white">
-      <h2 className="text-5xl font-bold text-center">Our Product</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+    <div className="my-16 text-gray-900 dark:text-white">
+      {/* Judul dengan garis bawah */}
+      <h2 className="text-4xl font-extrabold text-center relative pb-3">
+        Our Product
+        <span className="block w-16 h-1 bg-yellow-500 mx-auto mt-2 rounded-full"></span>
+      </h2>
+
+      {/* Grid produk */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 p-2">
         {displayedProducts.map((item) => (
-          <Card
+          <div
             key={item.id}
-            title={item.nama_barang}
-            price={formatRupiah(item.harga)}
-            description={item.deskripsi}
-            image={item.foto_barang}
-          />
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-5 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl"
+          >
+            <img
+              src={item.foto_barang}
+              alt={item.nama_barang}
+              className="w-full h-48 object-cover rounded-lg"
+            />
+            <h3 className="text-xl font-semibold mt-4">{item.nama_barang}</h3>
+            <p className="text-yellow-500 font-bold">
+              {formatRupiah(item.harga)}
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2">
+              {item.deskripsi}
+            </p>
+          </div>
         ))}
       </div>
 
-      <div className="text-center mt-8">
+      <div className="text-center mt-10">
         <Link
-          className="btn btn-warning text-white bg-yellow-500 hover:bg-yellow-400 py-2 px-4 rounded-md transition-colors duration-300"
           to="/product"
+          className="inline-block bg-yellow-500 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:bg-yellow-400"
         >
-          Product Selengkapnya
+          Lihat Semua Produk
         </Link>
       </div>
     </div>

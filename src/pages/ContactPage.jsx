@@ -3,6 +3,8 @@ import Header from "../components/tailus/Header";
 import Footer from "../components/Footer";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 import FloatingButton from "../components/FloatingButton";
+import { Helmet } from "react-helmet";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const ContactPage = () => {
   const [expanded, setExpanded] = useState(null);
@@ -29,6 +31,9 @@ const ContactPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white">
+      <Helmet>
+        <title>Project Toko Online | Contact</title>
+      </Helmet>
       <Header />
       <main className="flex-grow container mt-14 mx-auto px-4 py-10">
         <div className="text-center mb-8">
@@ -93,31 +98,35 @@ const ContactPage = () => {
           </div>
         </div>
 
-        <div className="bg-gray-100 dark:bg-gray-800 mt-10 p-5 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-center mb-5 text-gray-900 dark:text-white">
+        <div className="bg-white dark:bg-gray-900 mt-10 p-6 rounded-2xl shadow-lg">
+          <h2 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
             FAQ
           </h2>
-          <ul className="space-y-3 text-sm">
+          <ul className="space-y-4">
             {faqData.map((item, index) => (
               <li
                 key={index}
-                className="border-b border-gray-300 dark:border-gray-700 pb-2 cursor-pointer transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md p-2"
+                className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl shadow-md cursor-pointer transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 onClick={() => toggleFAQ(index)}
               >
-                <h3 className="text-base font-semibold flex justify-between items-center text-gray-800 dark:text-gray-200">
-                  {item.question}
-                  <span className="transition-transform duration-300 transform">
-                    {expanded === index ? "−" : "+"}
-                  </span>
-                </h3>
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                    {item.question}
+                  </h3>
+                  {expanded === index ? (
+                    <ChevronUp className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  )}
+                </div>
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  className={`transition-all duration-300 ease-in-out overflow-hidden ${
                     expanded === index
-                      ? "max-h-screen opacity-100 mt-2"
+                      ? "max-h-40 opacity-100 mt-2"
                       : "max-h-0 opacity-0"
                   }`}
                 >
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
                     {item.answer}
                   </p>
                 </div>

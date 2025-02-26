@@ -4,6 +4,8 @@ import { FaTrashAlt, FaArrowLeft } from "react-icons/fa";
 import Swal from "sweetalert2";
 import supabase from "../utils/supaClient";
 import Header from "../components/tailus/Header";
+import { Helmet } from "react-helmet";
+import CheckoutButton from "../components/CheckoutButton";
 
 export default function CartPage() {
   const [cart, setCart] = useState([]);
@@ -24,15 +26,14 @@ export default function CartPage() {
       if (error) {
         console.error(error);
       } else {
-        // Mengelompokkan produk yang sama berdasarkan barang_id
         const groupedCart = data.reduce((acc, item) => {
           const foundItem = acc.find(
             (cartItem) => cartItem.barang_id === item.barang_id
           );
           if (foundItem) {
-            foundItem.quantity += item.quantity; // Menambahkan quantity
+            foundItem.quantity += item.quantity;
           } else {
-            acc.push(item); // Menambahkan item baru jika belum ada
+            acc.push(item);
           }
           return acc;
         }, []);
@@ -56,12 +57,10 @@ export default function CartPage() {
     0
   );
 
-  // Fungsi untuk menghapus produk dari keranjang
   const handleDelete = async (barang_id) => {
     const { data: user } = await supabase.auth.getUser();
     if (!user) return;
 
-    // SweetAlert konfirmasi sebelum menghapus
     const result = await Swal.fire({
       title: "Apakah Anda yakin?",
       text: "Produk akan dihapus dari keranjang!",
@@ -83,10 +82,7 @@ export default function CartPage() {
       if (error) {
         Swal.fire("Terjadi kesalahan", error.message, "error");
       } else {
-        // Menghapus item dari state lokal setelah berhasil dihapus dari database
         setCart(cart.filter((item) => item.barang_id !== barang_id));
-
-        // SweetAlert Toast untuk notifikasi sukses
         Swal.fire({
           toast: true,
           position: "top-end",
@@ -108,9 +104,13 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+      <Helmet>
+        <title>Project Toko Online | Cart</title>
+      </Helmet>
       <Header />
       <div className="p-4 sm:p-6 flex-grow max-w-7xl mx-auto">
-        <div className="flex items-center space-x-4 mb-6">
+        {/* Header */}
+        <div className="flex items-center space-x-4 mb-8">
           <button
             onClick={() => navigate("/product")}
             className="text-gray-600 dark:text-gray-200 text-xl hover:text-gray-800 dark:hover:text-gray-400 transition-colors"
@@ -118,14 +118,14 @@ export default function CartPage() {
             <FaArrowLeft />
           </button>
 
-          <h1 className="mt-32 text-2xl sm:text-3xl font-bold text-center flex-grow text-gray-800 dark:text-gray-200">
+          <h1 className="text-2xl sm:text-3xl mt-28 font-bold flex-grow text-center text-gray-800 dark:text-gray-200">
             Shopping Cart
           </h1>
         </div>
 
         {cart.length === 0 ? (
-          <div className="flex justify-center items-center flex-col">
-            <p className="text-gray-500 dark:text-gray-300 text-center mt-4">
+          <div className="flex flex-col items-center justify-center mt-10">
+            <p className="text-gray-500 dark:text-gray-300 text-lg text-center">
               Your cart is empty.
             </p>
             <button
@@ -136,64 +136,52 @@ export default function CartPage() {
             </button>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {cart.map((item) => (
               <div
                 key={item.barang_id}
-                className="flex items-center p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 border-b border-gray-200 dark:border-gray-700 w-full max-w-sm sm:max-w-md lg:max-w-lg mx-auto"
+                className="flex items-center p-5 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-all border border-gray-200 dark:border-gray-700"
               >
+                {/* Gambar Produk */}
                 <img
                   src={item.barang.foto_barang}
                   alt={item.barang.nama_barang}
                   className="w-24 sm:w-32 h-24 sm:h-32 object-cover rounded-lg shadow-sm transition-transform duration-300 ease-in-out transform hover:scale-105"
                 />
-                <div className="flex-grow ml-4 sm:ml-6">
-                  <h2 className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200">
+
+                {/* Detail Produk */}
+                <div className="flex-grow ml-5">
+                  <h2 className="text-sm font-semibold text-gray-800 dark:text-gray-200">
                     {item.barang.nama_barang}
                   </h2>
-                  <p className="text-xs sm:text-xs text-gray-500 dark:text-gray-300">
+                  <p className="text-sm text-gray-500 dark:text-gray-300">
                     {formatHarga(item.barang.harga)}
                   </p>
-                  <p className="text-xs sm:text-xs text-gray-500 dark:text-gray-300">
+                  <p className="text-sm text-gray-500 dark:text-gray-300">
                     Jumlah: {item.quantity}
                   </p>
-                  <p className="text-xs sm:text-xs font-semibold text-gray-800 dark:text-gray-200">
-                    Subtotal: {formatHarga(item.barang.harga * item.quantity)}
-                  </p>
                 </div>
-                <div className="flex items-center space-x-4">
-                  <button
-                    onClick={() => handleDelete(item.barang_id)}
-                    className="text-red-600 dark:text-red-400 text-lg sm:text-xl hover:text-red-800 dark:hover:text-red-500 transition-all"
-                  >
-                    <FaTrashAlt />
-                  </button>
-                </div>
+
+                {/* Tombol Hapus */}
+                <button
+                  onClick={() => handleDelete(item.barang_id)}
+                  className="text-red-600 dark:text-red-400 text-lg hover:text-red-800 dark:hover:text-red-500 transition-all"
+                >
+                  <FaTrashAlt />
+                </button>
               </div>
             ))}
           </div>
         )}
 
-        <div className="border-t mt-8 mb-6 dark:border-gray-700"></div>
+        {/* Tombol Checkout */}
         {cart.length > 0 && (
-          <div className="flex justify-between items-center flex-col sm:flex-row mt-6">
-            <p className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-0 text-gray-800 dark:text-gray-200">
-              Total: {formatHarga(totalHarga)}
-            </p>
-            <div className="flex space-x-4 ml-4">
-              <button
-                onClick={() => navigate("/product")}
-                className="bg-gradient-to-r from-amber-400 to-amber-600 text-white px-6 py-3 rounded-full shadow-lg hover:from-amber-600 hover:to-amber-700 transition-all"
-              >
-                Continue Shopping
-              </button>
-              <button
-                onClick={() => navigate("/checkout")}
-                className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:from-green-600 hover:to-green-700 transition-all"
-              >
-                Proceed to Checkout
-              </button>
-            </div>
+          <div className="mt-8 flex justify-center">
+            <CheckoutButton
+              cart={cart}
+              totalHarga={totalHarga}
+              navigate={navigate}
+            />
           </div>
         )}
       </div>

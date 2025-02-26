@@ -11,6 +11,7 @@ import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
+import RiwayatPembelian from "./pages/RiwayatPembelian";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/riwayat" element={<RiwayatPembelian />} />
       </Routes>
     </BrowserRouter>
   );
