@@ -71,145 +71,149 @@ const CheckoutButton = ({ cart, totalHarga, navigate }) => {
       return;
     }
 
-    try {
-      const itemDetails = cart.map((item) => ({
-        id: item.barang_id,
-        price: item.barang.harga,
-        quantity: item.quantity,
-        name: item.barang.nama_barang,
-      }));
+    // Ambil full_name dari Supabase
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", user.user.id)
+      .single();
 
-      const orderId = `ORDER-${new Date().getTime()}`;
-      const transactionDetails = {
-        order_id: orderId,
-        gross_amount: totalHarga,
-      };
+    if (profileError || !profile) {
+      Swal.fire("Gagal mengambil nama pengguna", "Silakan coba lagi.", "error");
+      setIsProcessing(false);
+      return;
+    }
 
-      const customerDetails = {
-        email: user.user.email,
-      };
+    const itemDetails = cart.map((item) => ({
+      id: item.barang_id,
+      price: item.barang.harga,
+      quantity: item.quantity,
+      name: item.barang.nama_barang,
+    }));
 
-      const response = await fetch(
-        "http://localhost:5000/api/midtrans/create-payment",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            transactionDetails,
-            customerDetails,
-            itemDetails,
-          }),
-        }
-      );
+    const orderId = `ORDER-${new Date().getTime()}`;
+    const transactionDetails = {
+      order_id: orderId,
+      gross_amount: totalHarga,
+    };
 
-      const { token } = await response.json();
+    const customerDetails = {
+      first_name: profile.full_name,
+    };
 
-      window.snap.pay(token, {
-        onSuccess: async () => {
-          const { error: riwayatError } = await supabase.from("riwayat").insert(
-            cart.map((item) => ({
-              profile_id: user.user.id,
-              barang_id: item.barang_id,
-              quantity: item.quantity,
-              status: "Success",
-              order_id: orderId,
-            }))
-          );
+    const response = await fetch(
+      "http://localhost:5000/api/midtrans/create-payment",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          transactionDetails,
+          customerDetails,
+          itemDetails,
+        }),
+      }
+    );
 
-          if (riwayatError) {
-            console.error(riwayatError);
-            Swal.fire(
-              "Terjadi kesalahan saat menyimpan riwayat",
-              riwayatError.message,
-              "error"
-            );
-            setIsProcessing(false);
-            return;
-          }
+    const { token } = await response.json();
 
-          for (const item of cart) {
-            const { error: stockError } = await supabase
-              .from("barang")
-              .update({
-                stok: item.barang.stok - item.quantity,
-              })
-              .eq("id", item.barang_id);
+    window.snap.pay(token, {
+      onSuccess: async (midtransResponse) => {
+        const paymentChannel =
+          midtransResponse.payment_type || "Tidak Diketahui";
 
-            if (stockError) {
-              console.error(stockError);
-              Swal.fire(
-                `Gagal mengurangi stok untuk ${item.barang.nama_barang}`,
-                stockError.message,
-                "error"
-              );
-              setIsProcessing(false);
-              return;
-            }
-          }
+        const { error: riwayatError } = await supabase.from("riwayat").insert(
+          cart.map((item) => ({
+            profile_id: user.user.id,
+            barang_id: item.barang_id,
+            quantity: item.quantity,
+            status: "Success",
+            order_id: orderId,
+            total_harga: cart.reduce(
+              (total, item) => total + item.barang.harga * item.quantity,
+              0
+            ),
+            payment_channel: paymentChannel,
+          }))
+        );
 
-          const { error: cartError } = await supabase
-            .from("keranjang")
-            .delete()
-            .eq("profile_id", user.user.id)
-            .in(
-              "barang_id",
-              cart.map((item) => item.barang_id)
-            );
-
-          if (cartError) {
-            console.error(cartError);
-            Swal.fire(
-              "Terjadi kesalahan saat menghapus keranjang",
-              cartError.message,
-              "error"
-            );
-            setIsProcessing(false);
-            return;
-          }
-
-          Swal.fire({
-            title: "Pembayaran Berhasil!",
-            html: `<p>Pesanan Anda sedang diproses.</p>
-                     <p><strong>Order ID:</strong> ${orderId}</p>`,
-            icon: "success",
-            showCancelButton: true,
-            cancelButtonText: "Tutup",
-            confirmButtonText: "Salin Order ID",
-            confirmButtonColor: "#3085d6",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigator.clipboard.writeText(orderId);
-              Swal.fire(
-                "Tersalin!",
-                "Order ID telah disalin ke clipboard.",
-                "success"
-              ).then(() => navigate("/riwayat"));
-            } else {
-              navigate("/riwayat");
-            }
-          });
-        },
-        onPending: () => {
+        if (riwayatError) {
+          console.error(riwayatError);
           Swal.fire(
-            "Pembayaran Tertunda",
-            "Silakan selesaikan pembayaran Anda.",
-            "warning"
-          );
-        },
-        onError: () => {
-          Swal.fire(
-            "Pembayaran Gagal",
-            "Terjadi kesalahan saat memproses pembayaran.",
+            "Terjadi kesalahan saat menyimpan riwayat",
+            riwayatError.message,
             "error"
           );
-        },
-      });
-    } catch (error) {
-      console.error(error);
-      Swal.fire("Terjadi kesalahan saat memproses pembayaran", "", "error");
-    } finally {
-      setIsProcessing(false);
-    }
+          setIsProcessing(false);
+          return;
+        }
+
+        // Perbarui stok barang
+        for (const item of cart) {
+          const { error: stockError } = await supabase
+            .from("barang")
+            .update({
+              stok: item.barang.stok - item.quantity,
+            })
+            .eq("id", item.barang_id);
+
+          if (stockError) {
+            console.error(stockError);
+            Swal.fire(
+              `Gagal mengurangi stok untuk ${item.barang.nama_barang}`,
+              stockError.message,
+              "error"
+            );
+            setIsProcessing(false);
+            return;
+          }
+        }
+
+        await supabase
+          .from("keranjang")
+          .delete()
+          .eq("profile_id", user.user.id)
+          .in(
+            "barang_id",
+            cart.map((item) => item.barang_id)
+          );
+
+        Swal.fire({
+          title: "Pembayaran Berhasil!",
+          html: `<p>Pesanan Anda sedang diproses.</p><p><strong>Order ID:</strong> ${orderId}</p>`,
+          icon: "success",
+          showCancelButton: true,
+          cancelButtonText: "Tutup",
+          confirmButtonText: "Salin Order ID",
+          confirmButtonColor: "#3085d6",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigator.clipboard.writeText(orderId);
+            Swal.fire(
+              "Tersalin!",
+              "Order ID telah disalin ke clipboard.",
+              "success"
+            ).then(() => navigate("/riwayat"));
+          } else {
+            navigate("/riwayat");
+          }
+        });
+      },
+
+      onPending: () => {
+        Swal.fire(
+          "Pembayaran Tertunda",
+          "Silakan selesaikan pembayaran Anda.",
+          "warning"
+        );
+      },
+      onError: () => {
+        Swal.fire(
+          "Pembayaran Gagal",
+          "Terjadi kesalahan saat memproses pembayaran.",
+          "error"
+        );
+      },
+    });
   };
 
   return (

@@ -77,7 +77,7 @@ const Register = () => {
   return (
     <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
       <Helmet>
-        <title>Project Toko Online | Register</title>
+        <title>Toko Online | Register</title>
       </Helmet>
       <div className="max-w-md w-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-8 shadow-2xl rounded-2xl transition-all duration-300">
         {/* Judul */}

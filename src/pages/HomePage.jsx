@@ -13,7 +13,7 @@ const HomePage = () => {
     <>
       <Header />
       <Helmet>
-        <title>Project Toko Online | Home</title>
+        <title>Toko Online | Home</title>
       </Helmet>
       <div className="m-5">
         <Hero />

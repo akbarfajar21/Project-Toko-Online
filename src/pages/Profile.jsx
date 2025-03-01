@@ -238,7 +238,7 @@ const SettingPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
       <Helmet>
-        <title>Project Toko Online | Profile</title>
+        <title>Toko Online | Profile</title>
       </Helmet>
       <Header />
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-100 via-indigo-50 to-indigo-200 dark:from-indigo-900 dark:via-indigo-700 dark:to-indigo-800 p-6">

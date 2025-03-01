@@ -71,8 +71,9 @@ const ProductDetail = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white">
       <Helmet>
-        <title>Project Toko Online | Detail</title>
+        <title>{`Toko Online - ${product.nama_barang}`}</title>
       </Helmet>
+
       <Header />
       <div className="container mx-auto px-6 py-10">
         {/* Tombol Kembali */}

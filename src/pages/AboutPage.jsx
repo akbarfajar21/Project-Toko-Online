@@ -9,7 +9,7 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white">
       <Helmet>
-        <title>Project Toko Online | About</title>
+        <title>Toko Online | About</title>
       </Helmet>
       <Header />
       <main className="container mt-5 mx-auto px-4 py-8">

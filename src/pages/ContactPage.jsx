@@ -32,7 +32,7 @@ const ContactPage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white">
       <Helmet>
-        <title>Project Toko Online | Contact</title>
+        <title>Toko Online | Contact</title>
       </Helmet>
       <Header />
       <main className="flex-grow container mt-14 mx-auto px-4 py-10">

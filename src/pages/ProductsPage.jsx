@@ -6,6 +6,8 @@ import Header from "../components/tailus/Header";
 import Swal from "sweetalert2"; // Import SweetAlert2
 import Pagination from "../components/product/Pagination";
 import { Helmet } from "react-helmet";
+import LoadingSpinner from "../components/LoadingSpinner.jsx";
+import { FaBox } from "react-icons/fa";
 
 export default function ProductPage() {
   const navigate = useNavigate();
@@ -154,7 +156,7 @@ export default function ProductPage() {
   return (
     <>
       <Helmet>
-        <title>Project Toko Online | Product</title>
+        <title>Toko Online | Product</title>
       </Helmet>
       <Header cartCount={cartCount} />
       <div className=" mt-24 px-0 sm:px-4">
@@ -281,55 +283,65 @@ export default function ProductPage() {
               Daftar Produk
             </h2>
             {loading ? (
-              <div className="flex justify-center items-center space-x-2">
-                <div className="w-12 h-12 border-4 border-t-4 border-gray-500 dark:border-gray-300 border-solid rounded-full animate-spin"></div>
-                <p className="text-center text-gray-700 dark:text-gray-300">
-                  Loading...
-                </p>
+              <div className="h-screen flex items-center justify-center">
+                <LoadingSpinner />
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 p-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 p-3">
                 {paginatedProducts.map((product) => (
                   <div
                     key={product.id}
                     onClick={() => handleProductClick(product.id)}
-                    className="relative bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                    className="relative bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-300 dark:border-gray-700 
+                 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col h-full"
                   >
+                    {/* Gambar Produk */}
                     <div className="relative">
                       <img
                         src={product.foto_barang}
                         alt={product.nama_barang}
-                        className="w-full h-48 object-cover rounded-lg mb-4 transition-transform duration-300 hover:scale-105"
+                        className="w-full h-44 object-cover rounded-lg mb-3 transition-transform duration-300 hover:scale-105"
                       />
                       <span
-                        className={`absolute top-2 left-2 text-white text-xs px-2 py-1 rounded-md ${getBadgeColor(
+                        className={`absolute top-2 left-2 text-white text-xs px-2 py-1 rounded-md shadow-md ${getBadgeColor(
                           product.jenis_barang
                         )}`}
                       >
                         {product.jenis_barang}
                       </span>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-1">
+
+                    {/* Nama & Harga */}
+                    <h3 className="text-md font-semibold text-gray-800 dark:text-white mb-1">
                       {product.nama_barang}
                     </h3>
-                    <p className="text-gray-500 text-sm mb-2 dark:text-gray-300">
+                    <p className="text-gray-500 text-sm dark:text-gray-300">
                       Rp {product.harga.toLocaleString()}
                     </p>
-                    <p className="text-gray-600 text-sm mb-2 dark:text-gray-400 line-clamp-2">
-                      {product.deskripsi}
-                    </p>
-                    <p className="text-gray-700 font-medium text-sm mb-4 dark:text-gray-300">
-                      Stok: {product.stok}
-                    </p>
 
+                    {/* Deskripsi (agar mengisi ruang kosong) */}
+                    <div className="flex-grow">
+                      <p className="text-gray-600 text-sm dark:text-gray-400 line-clamp-2">
+                        {product.deskripsi}
+                      </p>
+                    </div>
+
+                    {/* Stok Produk */}
+                    <div className="flex items-center gap-1 text-gray-700 dark:text-gray-300 text-sm font-medium mt-2">
+                      <FaBox className="text-blue-500 dark:text-blue-400" />
+                      <span>Stok: {product.stok}</span>
+                    </div>
+
+                    {/* Tombol Add to Cart */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleAddToCart(product);
                       }}
-                      className="w-full py-2 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
+                      className="w-full py-1.5 px-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-medium rounded-md 
+                   hover:from-blue-600 hover:to-blue-800 transition-all duration-300 mt-4 text-xs sm:text-sm shadow-md"
                     >
-                      Tambah ke Keranjang
+                      Add to Cart
                     </button>
                   </div>
                 ))}

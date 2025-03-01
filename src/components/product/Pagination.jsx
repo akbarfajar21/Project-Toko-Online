@@ -13,18 +13,21 @@ function Pagination({ totalPages, currentPage, onPageChange }) {
   }
 
   return (
-    <div className="flex justify-center mt-6">
+    <div className="flex justify-center mt-6 mb-6">
+      {" "}
+      {/* Tambah margin bawah */}
       <nav>
         <ul className="flex space-x-2">
           {pageNumbers.map((number) => (
             <li key={number}>
               <button
                 onClick={() => handlePageClick(number)}
-                className={`px-4 py-2 rounded-lg ${
-                  currentPage === number
-                    ? "bg-amber-400 text-white"
-                    : "bg-gray-300 hover:bg-amber-400"
-                }`}
+                className={`px-4 py-2 rounded-lg transition-all duration-300 
+                  ${
+                    currentPage === number
+                      ? "bg-amber-500 text-white font-semibold shadow-md"
+                      : "bg-gray-200 text-gray-800 hover:bg-amber-400 hover:text-white"
+                  }`}
               >
                 {number}
               </button>
