@@ -102,7 +102,7 @@ const CheckoutButton = ({ cart, totalHarga, navigate }) => {
     };
 
     const response = await fetch(
-      "http://localhost:5000/api/midtrans/create-payment",
+      "https://beckend-payment.vercel.app/api/midtrans/create-payment",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
