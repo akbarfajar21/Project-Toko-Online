@@ -139,7 +139,7 @@ export default function CartPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
       <Helmet>
-        <title>{`Project Toko Online | Cart (${
+        <title>{`Toko Online | Cart (${
           cart.length > 0
             ? cart.reduce((acc, item) => acc + item.quantity, 0)
             : 0
